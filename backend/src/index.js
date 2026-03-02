@@ -11,11 +11,15 @@ import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
 import { app, server } from "./lib/socket.js";
 
+import { fileURLToPath } from "url";
+
 dotenv.config();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 console.log("NODE_ENV:", process.env.NODE_ENV);
-const PORT = process.env.PORT || 5001;
-const __dirname = path.resolve();
+console.log("Serving static files from:", path.join(__dirname, "../../frontend/dist"));
 
 app.use(express.json());
 app.use(cookieParser());
@@ -26,14 +30,20 @@ app.use(
   })
 );
 
+app.get("/api/health", (req, res) => {
+  res.status(200).json({ status: "ok", env: process.env.NODE_ENV });
+});
+
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
+const PORT = process.env.PORT || 5001;
+
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+  app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+    res.sendFile(path.join(__dirname, "../../", "frontend", "dist", "index.html"));
   });
 }
 
