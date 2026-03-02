@@ -42,6 +42,7 @@ This guide provides a streamlined process for deploying your Full Stack Chat App
 ---
 
 ### 💡 Pro Tips for Render
+- **CRITICAL**: If you see "Cannot GET /", it means your `NODE_ENV` environment variable is NOT set to `production` in the Render dashboard.
 - **Health Check**: Render might take 1-2 minutes to spin up the free tier instance.
 - **Single Service**: Because your backend serves the frontend `dist` folder, you **do not** need a separate "Static Site" service.
 - **Logs**: Check the "Logs" tab in Render if the deployment fails to see specific error messages.

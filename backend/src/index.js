@@ -13,7 +13,8 @@ import { app, server } from "./lib/socket.js";
 
 dotenv.config();
 
-const PORT = process.env.PORT;
+console.log("NODE_ENV:", process.env.NODE_ENV);
+const PORT = process.env.PORT || 5001;
 const __dirname = path.resolve();
 
 app.use(express.json());
